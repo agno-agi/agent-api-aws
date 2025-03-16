@@ -56,7 +56,7 @@ export EXA_API_KEY=***
 ag ws up
 ```
 
-- This will run 3 containers:
+- This will run 2 containers:
   - FastAPI on [localhost:8000](http://localhost:8000/docs)
   - Postgres on [localhost:5432](http://localhost:5432)
 - Open [localhost:8000/docs](http://localhost:8000/docs) to view the FastAPI docs.
