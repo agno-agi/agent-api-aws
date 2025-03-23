@@ -36,6 +36,8 @@ class ApiSettings(BaseSettings):
         valid_cors.append("https://app.agno.com")
         # Add localhost to cors to allow requests from the local environment.
         valid_cors.append("http://localhost")
+        # Add localhost:3000 to cors to allow requests from local Agent UI.
+        valid_cors.append("http://localhost:3000")
 
         return valid_cors
 
