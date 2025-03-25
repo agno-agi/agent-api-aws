@@ -12,7 +12,7 @@ env:
   DOCKERHUB_NAMESPACE: ${{ vars.DOCKERHUB_NAMESPACE }}
 
 jobs:
-  build-api-image:
+  build-push-image:
     runs-on: ubuntu-latest
 
     steps:
