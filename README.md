@@ -1,4 +1,4 @@
-## Agent api AWS
+## Agent Api
 
 This repo contains the code for a production-grade agentic system built with:
 

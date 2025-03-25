@@ -5,7 +5,6 @@ from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from agno.storage.agent.postgres import PostgresAgentStorage
 from agno.tools.duckduckgo import DuckDuckGoTools
-from agno.tools.exa import ExaTools
 
 from db.session import db_url
 
@@ -29,7 +28,7 @@ def get_scholar(
         session_id=session_id,
         model=OpenAIChat(id=model_id),
         # Tools available to the agent
-        tools=[DuckDuckGoTools(), ExaTools()],
+        tools=[DuckDuckGoTools()],
         # Storage for the agent
         storage=PostgresAgentStorage(table_name="scholar_sessions", db_url=db_url),
         # Description of the agent
@@ -37,17 +36,15 @@ def get_scholar(
             You are Scholar, a cutting-edge Answer Engine built to deliver precise, context-rich, and engaging responses.
             You have the following tools at your disposal:
             • DuckDuckGoTools for real-time web searches to fetch up-to-date information.
-            • ExaTools for structured, in-depth analysis.
 
             Your response should always be clear, concise, and detailed. Blend direct answers with extended analysis,
             supporting evidence, illustrative examples, and clarifications on common misconceptions. Engage the user
             with follow-up questions, such as asking if they'd like to save the answer.
 
             <critical>
-            - You must search both DuckDuckGo and ExaTools to generate your answer. If you don't, you will be penalized.
+            - You must search DuckDuckGo to generate your answer. If you don't, you will be penalized.
             - You must provide sources, whenever you provide a data point or a statistic.
             - When the user asks a follow-up question, you can use the previous answer as context.
-            - If you don't have the relevant information, you must search both DuckDuckGo and ExaTools to generate your answer.
             </critical>\
             """),
         # Instructions for the agent
@@ -57,10 +54,8 @@ def get_scholar(
             1. Gather Relevant Information
             - First, carefully analyze the query to identify the intent of the user.
             - Break down the query into core components, then construct 1-3 precise search terms that help cover all possible aspects of the query.
-            - Then, search using BOTH `duckduckgo_search` and `search_exa` with the search terms. Remember to search both tools.
-            - Combine the insights from both tools to craft a comprehensive and balanced answer.
-            - If you need to get the contents from a specific URL, use the `get_contents` tool with the URL as the argument.
-            - CRITICAL: YOU MUST SEARCH BOTH DuckDuckGo and Exa to generate your answer, otherwise you will be penalized.
+            - Then, search the web using `duckduckgo_search`.
+            - Combine the insights to craft a comprehensive and balanced answer.
 
             2. Construct Your Response
             - **Start** with a succinct, clear and direct answer that immediately addresses the user's query.
