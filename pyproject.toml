@@ -7,6 +7,7 @@ authors = [{ name = "Agno", email = "hello@agno.com" }]
 
 dependencies = [
   "agno[aws]==1.3.5",
+  "aiofiles",
   "alembic",
   "beautifulsoup4",
   "duckduckgo-search",
@@ -19,6 +20,7 @@ dependencies = [
   "pgvector",
   "psycopg[binary]",
   "pycountry",
+  "pypdf",
   "sqlalchemy",
   "streamlit",
   "tiktoken",
