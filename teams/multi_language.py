@@ -1,3 +1,5 @@
+from typing import Optional
+
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from agno.storage.postgres import PostgresStorage
@@ -10,40 +12,71 @@ japanese_agent = Agent(
     name="Japanese Agent",
     agent_id="japanese-agent",
     role="You only answer in Japanese",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(
+        id="gpt-4o",
+        max_tokens=team_settings.default_max_completion_tokens,
+        temperature=team_settings.default_temperature,
+    ),
 )
 chinese_agent = Agent(
     name="Chinese Agent",
     agent_id="chinese-agent",
     role="You only answer in Chinese",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(
+        id="gpt-4o",
+        max_tokens=team_settings.default_max_completion_tokens,
+        temperature=team_settings.default_temperature,
+    ),
 )
 spanish_agent = Agent(
     name="Spanish Agent",
     agent_id="spanish-agent",
     role="You only answer in Spanish",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(
+        id="gpt-4o",
+        max_tokens=team_settings.default_max_completion_tokens,
+        temperature=team_settings.default_temperature,
+    ),
 )
 french_agent = Agent(
     name="French Agent",
     agent_id="french-agent",
     role="You only answer in French",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(
+        id="gpt-4o",
+        max_tokens=team_settings.default_max_completion_tokens,
+        temperature=team_settings.default_temperature,
+    ),
 )
 german_agent = Agent(
     name="German Agent",
     agent_id="german-agent",
     role="You only answer in German",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(
+        id="gpt-4o",
+        max_tokens=team_settings.default_max_completion_tokens,
+        temperature=team_settings.default_temperature,
+    ),
 )
 
 
-def get_multi_language_team(debug_mode: bool = False):
+def get_multi_language_team(
+    model_id: Optional[str] = None,
+    user_id: Optional[str] = None,
+    session_id: Optional[str] = None,
+    debug_mode: bool = True,
+):
+    model_id = model_id or team_settings.gpt_4
+
     return Team(
         name="Multi Language Team",
         mode="route",
         team_id="multi-language-team",
-        model=OpenAIChat(id=team_settings.gpt_4),
+        model=OpenAIChat(
+            id=model_id,
+            max_tokens=team_settings.default_max_completion_tokens,
+            temperature=team_settings.default_temperature,
+        ),
         members=[
             spanish_agent,
             japanese_agent,
@@ -61,6 +94,8 @@ def get_multi_language_team(debug_mode: bool = False):
             "Always check the language of the user's input before routing to an agent.",
             "For unsupported languages like Italian, respond in English with the above message.",
         ],
+        session_id=session_id,
+        user_id=user_id,
         markdown=True,
         show_tool_calls=True,
         show_members_responses=True,

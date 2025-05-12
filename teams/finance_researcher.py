@@ -1,4 +1,5 @@
 from textwrap import dedent
+from typing import Optional
 
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
@@ -63,7 +64,11 @@ finance_agent = Agent(
 web_agent = Agent(
     name="Web Agent",
     role="Search the web for information",
-    model=OpenAIChat(id=team_settings.gpt_4),
+    model=OpenAIChat(
+        id=team_settings.gpt_4,
+        max_tokens=team_settings.default_max_completion_tokens,
+        temperature=team_settings.default_temperature,
+    ),
     tools=[DuckDuckGoTools(cache_results=True)],
     agent_id="web-agent",
     instructions=[
@@ -75,7 +80,14 @@ web_agent = Agent(
 )
 
 
-def get_finance_researcher_team(debug_mode: bool = False):
+def get_finance_researcher_team(
+    model_id: Optional[str] = None,
+    user_id: Optional[str] = None,
+    session_id: Optional[str] = None,
+    debug_mode: bool = True,
+):
+    model_id = model_id or team_settings.gpt_4
+
     return Team(
         name="Finance Researcher Team",
         team_id="financial-researcher-team",
@@ -84,8 +96,14 @@ def get_finance_researcher_team(debug_mode: bool = False):
         instructions=[
             "You are a team of finance researchers!",
         ],
+        session_id=session_id,
+        user_id=user_id,
         description="You are a team of finance researchers!",
-        model=OpenAIChat(id=team_settings.gpt_4),
+        model=OpenAIChat(
+            id=model_id,
+            max_tokens=team_settings.default_max_completion_tokens,
+            temperature=team_settings.default_temperature,
+        ),
         success_criteria="A good financial research report.",
         enable_agentic_context=True,
         expected_output="A good financial research report.",

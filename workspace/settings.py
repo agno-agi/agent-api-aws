@@ -24,7 +24,7 @@ ws_settings = WorkspaceSettings(
     # 'Name:tag' for the image
     image_name="agent-api",
     # Build images locally
-    build_images=False,
+    build_images=True,
     # Push images after building
     push_images=False,
     # Skip cache when building images
