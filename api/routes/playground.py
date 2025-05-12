@@ -4,8 +4,8 @@ from agno.playground import Playground
 
 from agents.sage import get_sage
 from agents.scholar import get_scholar
-from teams.finance_researcher_team import get_finance_researcher_team
-from teams.multi_language_team import get_multi_language_team
+from teams.finance_researcher import get_finance_researcher_team
+from teams.multi_language import get_multi_language_team
 from workflows.blog_post_generator import get_blog_post_generator
 from workflows.investment_report_generator import get_investment_report_generator
 from workspace.dev_resources import dev_fastapi

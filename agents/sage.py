@@ -7,11 +7,12 @@ from agno.storage.agent.postgres import PostgresAgentStorage
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.vectordb.pgvector import PgVector, SearchType
 
+from agents.settings import agent_settings
 from db.session import db_url
 
 
 def get_sage(
-    model_id: str = "gpt-4o",
+    model_id: Optional[str] = None,
     user_id: Optional[str] = None,
     session_id: Optional[str] = None,
     debug_mode: bool = True,
@@ -22,12 +23,18 @@ def get_sage(
         additional_context += f"You are interacting with the user: {user_id}"
         additional_context += "</context>"
 
+    model_id = model_id or agent_settings.gpt_4
+
     return Agent(
         name="Sage",
         agent_id="sage",
         user_id=user_id,
         session_id=session_id,
-        model=OpenAIChat(id=model_id),
+        model=OpenAIChat(
+            id=model_id,
+            max_tokens=agent_settings.default_max_completion_tokens,
+            temperature=agent_settings.default_temperature,
+        ),
         # Tools available to the agent
         tools=[DuckDuckGoTools()],
         # Storage for the agent
